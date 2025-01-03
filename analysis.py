@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API")
 google_sheet_url = os.getenv("GOOGLE_SHEET_URL")
 private_key = os.getenv("PRIVATE_KEY")
 project_id = os.getenv("PROJECT_ID")
@@ -32,6 +32,7 @@ universe_domain = os.getenv("UNIVERSE_DOMAIN")
 type_sa = os.getenv("TYPE")
 
 print(api_key)
+print(private_key_id)
 
 client = OpenAI(api_key= api_key)
 
