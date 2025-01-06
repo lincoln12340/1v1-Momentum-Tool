@@ -11,25 +11,23 @@ from plotly.subplots import make_subplots
 import tempfile
 import json
 from pydantic import BaseModel
-import os 
 import re
-from dotenv import load_dotenv
+import os
 
-load_dotenv()
 
-api_key = os.getenv("OPENAI_API")
-google_sheet_url = os.getenv("GOOGLE_SHEET_URL")
-private_key = os.getenv("PRIVATE_KEY")
-project_id = os.getenv("PROJECT_ID")
-private_key_id = os.getenv("PRIVATE_KEY_ID")
-client_email = os.getenv("CLIENT_EMAIL")
-client_id = os.getenv("CLIENT_ID")
-auth_uri = os.getenv("AUTH_URI")
-token_uri = os.getenv("TOKEN_URI")
-auth_provider_x509_cert_url = os.getenv("AUTH_PROVIDER_X509_CERT_URL")
-client_x509_cert_url = os.getenv("CLIENT_X509_CERT_URL")
-universe_domain = os.getenv("UNIVERSE_DOMAIN")
-type_sa = os.getenv("TYPE")
+api_key = st.secrets["OPENAI_API_KEY"]
+google_sheet_url = st.secrets["GOOGLE_SHEET_URL"]
+private_key = st.secrets["PRIVATE_KEY"]
+project_id = st.secrets["PROJECT_ID"]
+private_key_id = st.secrets["PRIVATE_KEY_ID"]
+client_email = st.secrets["CLIENT_EMAIL"]
+client_id = st.secrets["CLIENT_ID"]
+auth_uri = st.secrets["AUTH_URI"]
+token_uri = st.secrets["TOKEN_URI"]
+auth_provider_x509_cert_url = st.secrets["AUTH_PROVIDER_X509_CERT_URL"]
+client_x509_cert_url = st.secrets["CLIENT_X509_CERT_URL"]
+universe_domain = st.secrets["UNIVERSE_DOMAIN"]
+type_sa = st.secrets["TYPE"]
 
 print(api_key)
 print(private_key_id)
@@ -94,8 +92,8 @@ def stock_page():
     col1, col2 = st.columns([3, 1])
 
     
-    st.title("Stock Market Analysis with AI-Powered Insights")
-    st.markdown("**Gain actionable insights into stock trends with advanced indicators and AI interpretations.**")
+    #st.title("Stock Market Analysis with AI-Powered Insights")
+    #st.markdown("**Gain actionable insights into stock trends with advanced indicators and AI interpretations.**")
 
     progress_bar = st.progress(0)
     status_text = st.empty()
@@ -194,9 +192,8 @@ def stock_page():
                 
 
             
-                st.subheader(f"Summary for {ticker}")
-                with st.expander(f"Summary"):
-                    st.write(summary)
+                #st.subheader(f"Summary for {tick
+                st.write(summary)
 
                 st.session_state["run_analysis_complete"] = True
 
@@ -420,7 +417,7 @@ def stock_page():
                     adx_result_2 = results2["adx_result"]
 
 
-                    summary = SUMMARY(ticker, bd_result, sma_result, rsi_result, macd_result, obv_result, adx_result)
+                    #summary = SUMMARY(ticker, bd_result, sma_result, rsi_result, macd_result, obv_result, adx_result)
                     update_progress(progress_bar, 35, 35, "Technical Analysis complete!")
                     file_content = uploaded_file
                     file_name = uploaded_file.name
@@ -502,8 +499,8 @@ def stock_page():
 
 
 
-                    summary = SUMMARY(ticker, bd_result, sma_result, rsi_result, macd_result, obv_result, adx_result)
-                    summary2 = SUMMARY(ticker, bd_result_2, sma_result_2, rsi_result_2, macd_result_2, obv_result_2, adx_result_2)
+                    #summary = SUMMARY(ticker, bd_result, sma_result, rsi_result, macd_result, obv_result, adx_result)
+                    #summary2 = SUMMARY(ticker, bd_result_2, sma_result_2, rsi_result_2, macd_result_2, obv_result_2, adx_result_2)
                     update_progress(progress_bar, 35, 35, "Technical Analysis complete!")
                     update_progress(progress_bar, 45, 45, "Gathering News Data...")    
                     txt_summary = generate_company_news_message(company, timeframe)

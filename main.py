@@ -3,7 +3,7 @@ from analysis import stock_page
 from ai_chat import ai_chatbot_page
 
 
-st.set_page_config(page_title="Stock Market and AI Chatbot", layout="wide", page_icon="📈")
+st.set_page_config(page_title="One Vs One Performance Analysis", layout="wide", page_icon="📈")
 
 # Initialize session state for stock analysis completion
 if "analysis_complete" not in st.session_state:
