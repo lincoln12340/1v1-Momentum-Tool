@@ -1149,6 +1149,10 @@ def generate_company_news_message(company_name, time_period):
         "universe_domain": universe_domain
     }
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, ["https://www.googleapis.com/auth/spreadsheets"])
+    gc = gspread.authorize(credentials)
+    sh = gc.open_by_url(google_sheet_url)
+    previous = sh.sheet1.get('A2')
+    future = sh.sheet1.get('B2')
           
     chats = client.chat.completions.create(
         model="gpt-4o",
