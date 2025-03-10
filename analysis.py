@@ -1143,7 +1143,7 @@ def generate_company_news_message(company_name, time_period):
     ]
 
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("C:\\Users\\linco\\OneDrive\\Desktop\\Aescap\\Momentum\\stock-momentum-438620-d28ed2443e1a.json")
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("C:\\Users\\linco\\Desktop\\Aescap\\PAI\\stock-momentum-438620-d28ed2443e1a.json")
     gc = gspread.authorize(credentials)
     #gc = gspread.service_account.from_json_keyfile_name(filename="C:\\Users\\linco\\OneDrive\\Desktop\\Aescap\\Momentum\\stock-momentum-438620-d28ed2443e1a.json")
     sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/1-cDCZDq8r1rGDVYpY_JhQvb0srhqsIiPhGWaxRC1TPw/edit?usp=sharing")
