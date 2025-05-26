@@ -243,10 +243,10 @@ def stock_page():
                 
 
                 recent_data.reset_index(inplace=True)
-                recent_data['Date'] = recent_data['Date'].astype(str)
+                recent_data['date'] = recent_data['Date'].astype(str)
 
                 recent_data2.reset_index(inplace=True)
-                recent_data2['Date'] = recent_data2['Date'].astype(str)
+                recent_data2['date'] = recent_data2['Date'].astype(str)
 
                 st.session_state["gathered_data"] = gathered_data
                 st.session_state["analysis_complete"] = True  # Mark analysis as complete
