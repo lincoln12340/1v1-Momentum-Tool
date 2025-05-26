@@ -14,7 +14,7 @@ import json
 from pydantic import BaseModel
 import re
 import os
-
+import pandas as pd 
 
 
 api_key = st.secrets["OPENAI_API_KEY"]
