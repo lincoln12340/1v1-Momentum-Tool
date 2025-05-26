@@ -4,7 +4,7 @@ import pandas_ta as ta
 from openai import OpenAI
 import time
 import requests
-import spread
+#import spread
 from alpha_vantage.timeseries import TimeSeries
 from oauth2client.service_account import ServiceAccountCredentials
 import plotly.graph_objs as go
