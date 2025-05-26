@@ -4,7 +4,8 @@ import pandas_ta as ta
 from openai import OpenAI
 import time
 import requests
-import gspread
+import spread
+from alpha_vantage.timeseries import TimeSeries
 from oauth2client.service_account import ServiceAccountCredentials
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
@@ -13,6 +14,7 @@ import json
 from pydantic import BaseModel
 import re
 import os
+
 
 
 api_key = st.secrets["OPENAI_API_KEY"]
@@ -28,13 +30,52 @@ auth_provider_x509_cert_url = st.secrets["AUTH_PROVIDER_X509_CERT_URL"]
 client_x509_cert_url = st.secrets["CLIENT_X509_CERT_URL"]
 universe_domain = st.secrets["UNIVERSE_DOMAIN"]
 type_sa = st.secrets["TYPE"]
+alpha_vantage_key = st.secrets["ALPHA_VANTAGE_API_KEY"]
 
 print(api_key)
 print(private_key_id)
 
 client = OpenAI(api_key= api_key)
 
+@st.cache_data(ttl=3600)
+def fetch_alpha_vantage_data(ticker, period):
+    """Fetch data from Alpha Vantage and filter by period"""
+    ts = TimeSeries(key=alpha_vantage_key, output_format='pandas')
+    
+    try:
+        # Get full daily data (we'll filter it later)
+        data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
+        data.index = pd.to_datetime(data.index)
+        
+        # Filter based on selected period
+        today = pd.Timestamp.today()
+        period_map = {
+            "3 Months": 90,
+            "6 Months": 180,
+            "1 Year": 365
+        }
+        cutoff_days = period_map.get(period, 365)
+        cutoff_date = today - pd.Timedelta(days=cutoff_days)
 
+        filtered_data = data[data.index >= cutoff_date]
+
+        
+        #filtered_data = data.last(period_map.get(period, "1Y"))
+        
+        # Rename columns to match yfinance format
+        filtered_data = filtered_data.rename(columns={
+            '1. open': 'Open',
+            '2. high': 'High',
+            '3. low': 'Low',
+            '4. close': 'Close',
+            '5. volume': 'Volume'
+        })
+        
+        return filtered_data.sort_index()
+    
+    except Exception as e:
+        st.error(f"Alpha Vantage Error: {str(e)}")
+        return None
 
 def stock_page():
     #client = OpenAI(api_key=api_key)
@@ -99,20 +140,22 @@ def stock_page():
     status_text = st.empty()
 
     if run_button:
-        
-        if timeframe == "3 Months":
-            data = yf.download(ticker, period="3mo")
-            data2 = yf.download(ticker_2, period="3mo")
-        elif timeframe == "6 Months":
-            data = yf.download(ticker, period="6mo")
-            data2 = yf.download(ticker_2, period="6mo")
-        elif timeframe == "1 Year":
-            data = yf.download(ticker, period="1y")
-            data2 = yf.download(ticker_2, period="1y")
+            status_text.text("Fetching data from Alpha Vantage...")
+            data = fetch_alpha_vantage_data(ticker, timeframe)
+            data2 = fetch_alpha_vantage_data(ticker_2, timeframe)
+        #if timeframe == "3 Months":
+            #data = yf.download(ticker, period="3mo")
+            #data2 = yf.download(ticker_2, period="3mo")
+        #elif timeframe == "6 Months":
+            #data = yf.download(ticker, period="6mo")
+            #data2 = yf.download(ticker_2, period="6mo")
+        #elif timeframe == "1 Year":
+            #data = yf.download(ticker, period="1y")
+            #data2 = yf.download(ticker_2, period="1y")
         # Check if the "Run" button is pressed
        
-        data.columns = data.columns.droplevel(1)
-        data2.columns = data2.columns.droplevel(1)
+        #data.columns = data.columns.droplevel(1)
+        #data2.columns = data2.columns.droplevel(1)
        
         
     
