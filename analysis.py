@@ -140,9 +140,9 @@ def stock_page():
     status_text = st.empty()
 
     if run_button:
-            status_text.text("Fetching data from Alpha Vantage...")
-            data = fetch_alpha_vantage_data(ticker, timeframe)
-            data2 = fetch_alpha_vantage_data(ticker_2, timeframe)
+        status_text.text("Fetching data from Alpha Vantage...")
+        data = fetch_alpha_vantage_data(ticker, timeframe)
+        data2 = fetch_alpha_vantage_data(ticker_2, timeframe)
         #if timeframe == "3 Months":
             #data = yf.download(ticker, period="3mo")
             #data2 = yf.download(ticker_2, period="3mo")
